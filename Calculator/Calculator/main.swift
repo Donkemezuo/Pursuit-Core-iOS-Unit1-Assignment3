@@ -26,147 +26,209 @@ func mathStuffFactory(opString: String) -> (Double, Double) -> Double {
     }
 }
 
-print("RayElectronics Inc 💻! Please enter prefered type of calculator |Regular or High order?|")
 
+while true {
+    print("RayElectronics Inc 💻! Please enter prefered type of calculator |Regular or High order?|")
 let userChoice = readLine()
 
 if var userChoiceOfFunction = userChoice {
-
-switch userChoice {
-case "Regular":
     
-    print(" Please enter your operation")
-    
-    while true  {
+    switch userChoice {
+    case "Regular":
         
-        let userInput = readLine()
+        print(" Please enter your operation")
         
-        if let myUserInput = userInput {
+        while true  {
             
-            let componentUserInput = myUserInput.components(separatedBy: " ")
-            guard componentUserInput.count == 3 else {
-                print("Invalid input format. Input values with space")
-                continue
-            }
+            let userInput = readLine()
             
-            let firstInput = componentUserInput[0]
-            let operatoraInput = componentUserInput[1]
-            let secondInput = componentUserInput[2]
-            if let myFirstInput = Double(firstInput){
+            if let myUserInput = userInput {
                 
-                if let mySecondInput = Double(secondInput){
+                let componentUserInput = myUserInput.components(separatedBy: " ")
+                guard componentUserInput.count == 3 else {
+                    print("Invalid input format. Input values with space")
+                    continue
+                }
+                
+                let firstInput = componentUserInput[0]
+                let operatoraInput = componentUserInput[1]
+                let secondInput = componentUserInput[2]
+                if let myFirstInput = Double(firstInput){
                     
-                    
-                    if operatoraInput == "?" {
-                        var computerRandomOperator = ""
-                        let arrayOfOperators = ["+", "-", "*", "/"]
-                        if let randomOperator = arrayOfOperators.randomElement(){
-                            computerRandomOperator = randomOperator
-                            let myNewClosure = mathStuffFactory(opString: computerRandomOperator)
-                            let result = myNewClosure(myFirstInput,mySecondInput)
-                            print("\(myFirstInput) ? \(mySecondInput) = \(result)")
-                            
-                        }
-                        print("Now guess the random operator")
-                        let userOperatorInput = readLine()
-                        if let myUserOperatorInput = userOperatorInput {
-                            guard arrayOfOperators.contains(myUserOperatorInput)  /*.count == 1 && myUserOperatorInput == ""*/ else {
-                                print("Please you can only input an operators like +, -, *, / ")
+                    if let mySecondInput = Double(secondInput){
+                        
+                        
+                        if operatoraInput == "?" {
+                            var computerRandomOperator = ""
+                            let arrayOfOperators = ["+", "-", "*", "/"]
+                            if let randomOperator = arrayOfOperators.randomElement(){
+                                computerRandomOperator = randomOperator
+                                let myNewClosure = mathStuffFactory(opString: computerRandomOperator)
+                                let result = myNewClosure(myFirstInput,mySecondInput)
+                                print("\(myFirstInput) ? \(mySecondInput) = \(result)")
+                                
+                            }
+                            print("Now guess the random operator")
+                            let userOperatorInput = readLine()
+                            if let myUserOperatorInput = userOperatorInput {
+                                guard arrayOfOperators.contains(myUserOperatorInput)  /*.count == 1 && myUserOperatorInput == ""*/ else {
+                                    print("Please you can only input an operators like +, -, *, / ")
+                                    continue
+                                }
+                                
+                                if myUserOperatorInput == computerRandomOperator {
+                                    print("You got it right")
+                                } else {
+                                    if myUserOperatorInput != computerRandomOperator {
+                                        print("You input operator is wrong. The right operator is \(computerRandomOperator)")
+                                    }
+                                }
                                 continue
                             }
-                            
-                            if myUserOperatorInput == computerRandomOperator {
-                                print("You got it right")
-                            } else {
-                                if myUserOperatorInput != computerRandomOperator {
-                                    print("You input operator is wrong. The right operator is \(computerRandomOperator)")
-                                }
-                            }
-                            continue
+                        }
+                        let closure = mathStuffFactory(opString: operatoraInput)
+                        let closureReturns = closure(myFirstInput, mySecondInput)
+                        print("\(myFirstInput) \(operatoraInput) \(mySecondInput) = \(closureReturns)")
+                        break
+                    }
+                }
+            }
+        }
+        
+        
+    case "High order":
+        
+        print("we have high order functions like filter, map and reduce. Please enter your prefered choice")
+        let userInputt = readLine()
+        
+        if let myUserChoiceOfOperation = userInputt {
+            let theComponents = myUserChoiceOfOperation.components(separatedBy: " ")
+            
+            var highOrderFunction = theComponents[0]
+            var unfilteredArray = theComponents[1]
+
+            let componentsOfUnfilteredArray = unfilteredArray.components(separatedBy:"," ).compactMap {Int($0)}
+            var ByOperator = theComponents[3]
+            var numFilteredBy = Int(theComponents[4])
+            let userInputBynumber = numFilteredBy ?? 0
+            
+
+            
+            switch highOrderFunction {
+            case "filter":
+            switch ByOperator {
+            case "<":
+                func filter(inputArray:[Int], filterClosure: (Int) -> Bool) -> [Int] {
+                    var filteredNumbers:[Int] = []
+                    for myNumber in inputArray {
+                        if filterClosure(myNumber) {
+                            filteredNumbers.append(myNumber)
                         }
                     }
-                    let closure = mathStuffFactory(opString: operatoraInput)
-                    let closureReturns = closure(myFirstInput, mySecondInput)
-                    print("\(myFirstInput) \(operatoraInput) \(mySecondInput) = \(closureReturns)")
+                    return filteredNumbers
                     
                 }
-            }
-}
-}
-    
-    
-case: "High order"
-
-print("we have high order functions like filter, map and reduce. Please enter your prefered choice")
-let userInputt = readLine()
-
-if let myUserChoiceOfOperation = userInputt {
-    let theComponents = myUserChoiceOfOperation.components(separatedBy: " ")
-    
-    var highOrderFunction = theComponents[0]
-    var unfilteredArray = theComponents[1]
-    var filterBy = theComponents[3]
-    var numFilteredBy = Int(theComponents[4])
-    let myUnwrappedFilteredBy = numFilteredBy ?? 0
-    
-    switch filterBy {
-    case "<":
-        
-        func filter(inputArray:[Int], filter: (Int) -> Bool) -> [Int] {
-            var filteredNumbers:[Int] = []
-            for myNumber in inputArray {
-                if myNumber < myUnwrappedFilteredBy {
-                    filteredNumbers.append(myNumber)
+                print(filter(inputArray: componentsOfUnfilteredArray, filterClosure: { (myNumber) -> Bool in
+                    return myNumber < userInputBynumber
+                }))
+                
+            case ">":
+                func filter(inputArray:[Int], filterClosure: (Int) -> Bool) -> [Int] {
+                    var filteredNumbers:[Int] = []
+                    for myNumber in inputArray {
+                    if filterClosure(myNumber) {
+                        filteredNumbers.append(myNumber)
+                    }
                 }
+                return filteredNumbers
             }
-            return filteredNumbers
+          
+            print(filter(inputArray: componentsOfUnfilteredArray, filterClosure: { (myNumber) -> Bool in
+                return myNumber > userInputBynumber
+            }))
             
-        }
-        
-    case ">":
-        func filter(inputArray:[Int], filter: (Int) -> Bool) -> [Int] {
-            var filteredNumbers:[Int] = []
-            for myNumber in inputArray {
-                if myNumber > myUnwrappedFilteredBy {
-                    filteredNumbers.append(myNumber)
+            default:
+                print("invalid input")
                 }
-            }
-            return filteredNumbers
+         case "map":
+        switch ByOperator {
+            case "*":
+            func map(inputArray:[Int], mapClosure:(Int) -> Int) -> [Int] {
+                var numbersInArray:[Int] = []
+                for number in inputArray {
+                    let intInmap = mapClosure(number)
+                    numbersInArray.append(intInmap)
             
-        }
+                }
+                return numbersInArray
+                }
+            print(map(inputArray: componentsOfUnfilteredArray, mapClosure: { (myNumber) -> Int in
+                return myNumber * userInputBynumber
+                }))
+            
+        case "/":
+            func map(inputArray:[Int], mapClosure:(Int) -> Int) -> [Int] {
+                var numbersInArray:[Int] = []
+                for number in inputArray {
+                    let intInmap = mapClosure(number)
+                    numbersInArray.append(intInmap)
+                    
+                }
+                return numbersInArray
+            }
+            print(map(inputArray: componentsOfUnfilteredArray, mapClosure:{ (myNumber) -> Int in
+                return myNumber / userInputBynumber
+            
+            }))
+            
     default:
-        print("invalid input")
-    }
-    }
-    }
-    
-    
-    
-    func map(inputArray:[Int]) -> [Int]{
-        var numbersInArray:[Int] = []
-        for number in inputArray {
-            numbersInArray += number * userInputtt
-            return numbersInArray
+    print("Map high order function only takes in (*,/) operators ")
+                
         }
+            case "reduce":
+    switch ByOperator{
         
-    }
-    
-    
-    func map(inputArray:[Int]) -> [Int]{
-        var numbersInArray:[Int] = []
-        for number in inputArray {
-            numbersInArray += number / userInputtt
-            return numbersInArray
+    case "+":
+        func reduce(inputArray:[Int], reduceClosure:(Int,Int) -> Int, startValue: Int) -> Int {
+            var total = startValue
+            for myNumber in inputArray {
+                total = reduceClosure(total,myNumber)
+            }
+            return total
         }
+        print(reduce(inputArray: componentsOfUnfilteredArray, reduceClosure: { (total, myNumber) -> Int in
+            return  total + myNumber
+        }, startValue: userInputBynumber))
         
-
+    case "*":
+        
+        func reduce(inputArray:[Int], reduceClosure:(Int,Int) -> Int, startValue: Int) -> Int {
+            var total = startValue
+            for myNumber in inputArray {
+                total = reduceClosure(total,myNumber)
+            }
+            return total
+        }
+        print(reduce(inputArray: componentsOfUnfilteredArray, reduceClosure: { (total, myNumber) -> Int in
+            return  total *  myNumber
+        }, startValue: userInputBynumber))
+        
+    default:
+                print("reduce operator only take in * and + in this program")
+            }
+        
+            default:
+                print("invalid input")
+            }
+        }
     
-default:
-print("Return to menu")
+    default:
+        print("Return to menu")
+
+            }
     
-}
-  
+
 }
 
-
+}
 
