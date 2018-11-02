@@ -27,7 +27,7 @@ func mathStuffFactory(opString: String) -> (Double, Double) -> Double {
 }
 
 
-while true {
+outer:while true {
     print("RayElectronics Inc 💻! Please enter prefered type of calculator |Regular or High order?|")
 let userChoice = readLine()
 
@@ -38,7 +38,7 @@ if var userChoiceOfFunction = userChoice {
         
         print(" Please enter your operation")
         
-        while true  {
+        inner:while true  {
             
             let userInput = readLine()
             
@@ -54,10 +54,14 @@ if var userChoiceOfFunction = userChoice {
                 let operatoraInput = componentUserInput[1]
                 let secondInput = componentUserInput[2]
                 if let myFirstInput = Double(firstInput){
-                    
+                
                     if let mySecondInput = Double(secondInput){
-                        
-                        
+    
+                        if mySecondInput == 0  {
+                            print("This program cannot take this operation")
+                            continue outer
+                        }
+                       
                         if operatoraInput == "?" {
                             var computerRandomOperator = ""
                             let arrayOfOperators = ["+", "-", "*", "/"]
@@ -86,6 +90,7 @@ if var userChoiceOfFunction = userChoice {
                                 continue
                             }
                         }
+                        
                         let closure = mathStuffFactory(opString: operatoraInput)
                         let closureReturns = closure(myFirstInput, mySecondInput)
                         print("\(myFirstInput) \(operatoraInput) \(mySecondInput) = \(closureReturns)")
